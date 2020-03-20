@@ -42,7 +42,9 @@ resp.raise_for_status()
 assert len(resp.json()) == 5  # however many processes you expect to be running with forever.js
 ```
 
-For a more extensive example (the one that runs on my system as a cron job), see [`monitor.py`](./monitor.py).
+For a more extensive example (the one that runs on my system as a
+[i3block](https://github.com/vivien/i3blocks) blocket (runs every 5 minutes and
+updates my status bar)), see [`monitor.py`](./monitor.py).
 
 ### Sample output:
 
