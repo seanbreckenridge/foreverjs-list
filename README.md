@@ -16,6 +16,11 @@ export FOREVER_LIST_TOKEN=v1E074hIiW0WJ2vv3G1S
 node app.js
 ```
 
+Endpoints:
+
+* `/`: The base endpoint which returns information regarding processes.
+* `/:id/logs`: Return the logs for a process, `:id` is the UID of the forever process.
+
 ## Example
 
 I run this on my server which runs my applications as `forever.js` processes

@@ -1,6 +1,10 @@
 const forever = require('forever');
 const express = require('express');
 const morgan = require('morgan');
+const helmet = require('helmet');
+const _ = require('underscore');
+const fs = require('fs');
+const ansiparse = require('ansiparse');
 
 /**
  * clean (remove some unnecessary attributes) the forever process object
@@ -28,8 +32,11 @@ if (!process.env.FOREVER_LIST_TOKEN) {
 
 const app = express();
 
+// middleware
 // logging
 app.use(morgan('short'));
+app.use(helmet());
+
 
 // authenticate with token
 app.use(function tokenAuth(req, res, next) {
@@ -51,6 +58,33 @@ app.get('/', function(req, res) {
       res.status(200).send(JSON.stringify(
           processes.map(cleanForever),
       ));
+    }
+  });
+});
+
+app.get('/:id/logs', function(req, res) {
+  forever.list(false, function(err, processes) {
+    if (err) {
+      res.status(400).send(JSON.stringify(error));
+    } else {
+      let process = _.find(processes, (o) => o.uid == req.params.id);
+      if (!process) {
+        res.status(404).send({error: `No such process id: ${req.params.id}`});
+      } else {
+        fs.readFile(process.logFile, function(err, data) {
+          if (err) {
+            res.status(400).send(JSON.stringify(err))
+          } else {
+            var d;
+            d = (data || '').toString().trim();
+            if (!d || d === '\n') {
+              res.status(404).send({error: {filename: process.logFile, logs: 'Empty Log'}})
+            } else {
+              res.status(200).send({filename: process.logFile, logs: ansiparse(d)})
+            }
+          }
+        });
+      }
     }
   });
 });

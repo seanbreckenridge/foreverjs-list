@@ -17,9 +17,12 @@
   "license": "MIT",
   "homepage": "https://github.com/seanbreckenridge/foreverjs-list#readme",
   "dependencies": {
+    "ansiparse": "^0.1.0",
     "express": "^4.17.1",
     "forever": "^2.0.0",
-    "morgan": "^1.9.1"
+    "helmet": "^3.21.3",
+    "morgan": "^1.9.1",
+    "underscore": "^1.9.2"
   },
   "devDependencies": {
     "eslint": "^6.8.0",
