@@ -1,0 +1,28 @@
+{
+  "name": "foreverjs-list",
+  "version": "1.0.0",
+  "description": "small express API to list information about forever.js processes",
+  "main": "app.js",
+  "scripts": {
+    "lint": "eslint --fix app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/seanbreckenridge/foreverjs-list.git"
+  },
+  "keywords": [
+    "forever.js"
+  ],
+  "author": "Sean Breckenridge",
+  "license": "MIT",
+  "homepage": "https://github.com/seanbreckenridge/foreverjs-list#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "forever": "^2.0.0",
+    "morgan": "^1.9.1"
+  },
+  "devDependencies": {
+    "eslint": "^6.8.0",
+    "eslint-config-google": "^0.14.0"
+  }
+}
