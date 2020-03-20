@@ -18,9 +18,12 @@ node app.js
 
 ## Example
 
+I run this on my server which runs my applications as `forever.js` processes
+
 ```shell
 FOREVER_LIST_TOKEN=secret_token_here node app.js
 ```
+... and then can query the status of the running applications from anywhere, to notify me of an issues going on:
 
 ```python
 import requests
@@ -34,7 +37,7 @@ resp.raise_for_status()
 assert len(resp.json()) == 5  # however many processes you expect to be running with forever.js
 ```
 
-For a more extensive example, see [`monitor.py`](./monitor.py).
+For a more extensive example (the one that runs on my system as a cron job), see [`monitor.py`](./monitor.py).
 
 ### Sample output:
 
