@@ -35,7 +35,7 @@ app.use(morgan('short'));
 app.use(function tokenAuth(req, res, next) {
   const token = req.header('token');
   if (!token || token !== password) {
-    return res.status(403).send({error: 'Not authenticated. '});
+    return res.status(403).send({error: 'Not authenticated'});
   }
   next();
 });
