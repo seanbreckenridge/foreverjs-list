@@ -1,6 +1,7 @@
+#!/usr/bin/python3
 """
 This is a pretty personal script, it uses my dev environment
-requires (python) httpx, (unix) notify-send and wait-for-internet
+requires (python) httpx toml, (unix) notify-send and wait-for-internet
 https://github.com/seanbreckenridge/wait-for-internet
 
 Waits till I have an internet connection, and then
@@ -8,6 +9,7 @@ checks whether the the server and the correct
 amount of processes are running (and dont seem to be
 stuck restarting)
 
+Expects a toml file at $ZDOTDIR/secrets that contains:
 FOREVER_LIST_TOKEN # token to communicate with the HTTP server
 FOREVER_LIST_COUNT # number of expected running processes
 """
@@ -19,6 +21,7 @@ import shlex
 import subprocess
 
 import httpx
+import toml
 
 
 def notify(message: str, critical: bool = True):
@@ -32,24 +35,19 @@ def notify(message: str, critical: bool = True):
         )
     )
     if critical:
+        print("❌", file=sys.stderr)
         sys.exit(1)
 
 
-# get the token and expected process count
-try:
-    token = os.environ["FOREVER_LIST_TOKEN"]
-    expected_proc_count = int(os.environ["FOREVER_LIST_COUNT"])
-except KeyError as ke:
-    notify(f"Expected environment variable: {ke}")
-except ValueError:
-    notify("Could not convert value of FOREVER_LIST_COUNT to an integer")
-
+conf = toml.load(open(os.path.join(os.environ["HOME"], ".config/zsh/secrets"), "r"))
 
 #  does what it sounds like
 os.system("wait-for-internet >/dev/null")
 
 # make the request to the API
-resp = httpx.get("https://seanbr.com/forever-list/", headers={"token": token})
+resp = httpx.get(
+    "https://seanbr.com/forever-list/", headers={"token": conf["FOREVER_LIST_TOKEN"]}
+)
 resp_json = resp.json()
 
 # if we couldnt connect to the remote api, notify me
@@ -60,8 +58,12 @@ except httpx._exceptions.HTTPError as http_error:
     notify(str(http_error))
 
 # make sure the expected number of forever processes are running
-if len(resp_json) != expected_proc_count:
-    notify("Expected to find {}, found {}".format(expected_proc_count, len(resp_json)))
+if len(resp_json) != conf["FOREVER_LIST_COUNT"]:
+    notify(
+        "Expected to find {}, found {}".format(
+            conf["FOREVER_LIST_COUNT"], len(resp_json)
+        )
+    )
 
 # make sure all returned processes are running
 for proc in resp_json:
@@ -76,3 +78,5 @@ for proc in resp_json:
             ),
             critical=False,
         )
+
+print("✅")
