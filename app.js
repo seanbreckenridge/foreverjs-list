@@ -67,20 +67,23 @@ app.get('/:id/logs', function(req, res) {
     if (err) {
       res.status(400).send(JSON.stringify(error));
     } else {
-      let process = _.find(processes, (o) => o.uid == req.params.id);
+      const process = _.find(processes, (o) => o.uid == req.params.id);
       if (!process) {
         res.status(404).send({error: `No such process id: ${req.params.id}`});
       } else {
         fs.readFile(process.logFile, function(err, data) {
           if (err) {
-            res.status(400).send(JSON.stringify(err))
+            res.status(400).send(JSON.stringify(err));
           } else {
-            var d;
-            d = (data || '').toString().trim();
+            const d = (data || '').toString().trim();
             if (!d || d === '\n') {
-              res.status(404).send({error: {filename: process.logFile, logs: 'Empty Log'}})
+              res.status(404).send(
+                  {error: {filename: process.logFile, logs: 'Empty Log'}},
+              );
             } else {
-              res.status(200).send({filename: process.logFile, logs: ansiparse(d)})
+              res.status(200).send(
+                  {filename: process.logFile, logs: ansiparse(d)},
+              );
             }
           }
         });
