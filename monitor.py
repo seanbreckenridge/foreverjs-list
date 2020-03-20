@@ -1,11 +1,12 @@
-# this is a pretty personal script, it uses my dev environment
-# requires (python) httpx, (unix) notify-send and wait-for-internet
-#  does what it sounds like; waits till we have a remote connection
 """
-Wait till I have internet,
-make sure the server is running and all processes are running
+This is a pretty personal script, it uses my dev environment
+requires (python) httpx, (unix) notify-send and wait-for-internet
+https://github.com/seanbreckenridge/wait-for-internet
 
-Expects two environment variables,
+Waits till I have an internet connection, and then
+checks whether the the server and the correct
+amount of processes are running (and dont seem to be
+stuck restarting)
 
 FOREVER_LIST_TOKEN # token to communicate with the HTTP server
 FOREVER_LIST_COUNT # number of expected running processes
@@ -44,7 +45,7 @@ except ValueError:
     notify("Could not convert value of FOREVER_LIST_COUNT to an integer")
 
 
-#  https://github.com/seanbreckenridge/wait-for-internet
+#  does what it sounds like
 os.system("wait-for-internet >/dev/null")
 
 # make the request to the API
