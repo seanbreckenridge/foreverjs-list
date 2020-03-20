@@ -31,6 +31,35 @@ resp = requests.get("https://mywebsite.com/forever-list",
 
 # make sure server is running
 resp.raise_for_status()
+assert len(resp.json()) == 5  # however many processes you expect to be running with forever.js
+```
+
+For a more extensive example, see [`monitor.py`](./monitor.py).
+
+### Sample output:
+
+Returns a list of JSON objects:
+
+```
+[
+...
+{'args': [],
+  'command': '/snap/node/2310/bin/node',
+  'ctime': 1584691385266,
+  'file': 'app.js',
+  'id': False,
+  'isMaster': True,
+  'logFile': '/home/sean/logs/foreverjs-list/forever.log',
+  'pid': 12936,
+  'restarts': 13,
+  'running': True,
+  'silent': False,
+  'sourceDir': '/home/sean/code/foreverjs-list',
+  'spawnWith': {'cwd': '/home/sean/code/foreverjs-list'},
+  'uid': 'forever-list-api'}
+  ...
+  ]
+
 ```
 
 ### nginx
