@@ -23,7 +23,7 @@ I run this on my server which runs my applications as `forever.js` processes
 ```shell
 FOREVER_LIST_TOKEN=secret_token_here node app.js
 ```
-... and then can query the status of the running applications from anywhere, to notify me of an issues going on:
+... and then I can query the status of the running applications from anywhere, to notify me of an issues going on:
 
 ```python
 import requests
