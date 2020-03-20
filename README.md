@@ -1,6 +1,6 @@
 # foreverjs-list
 
-An express server that serves information about `forever.js` processes
+An express server that serves information about [`forever.js`](https://github.com/foreversd/forever) processes
 
 Uses a secret token to authenticate requests, exposes the `forever.js` `list` command output as JSON.
 
