@@ -10,7 +10,7 @@ Uses a secret token to authenticate requests, exposes the `forever.js` `list` co
 git clone https://github.com/seanbreckenridge/foreverjs-list
 cd foreverjs-list
 npm install
-# set required token somewhere (put in some environment file (e.g. ~/.bashrc)
+# set required token somewhere (put in some environment file (e.g. ~/.bashrc))
 export FOREVER_LIST_TOKEN=v1E074hIiW0WJ2vv3G1S
 # you may set the FOREVER_LIST_PORT to change the default port from 8084
 node app.js
