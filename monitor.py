@@ -76,7 +76,7 @@ for proc in resp_json:
     if not proc["running"]:
         notify("{} is not running".format(proc["uid"]))
     # if it was started recently and has more than one restart, warn me
-    if time.time() - proc["ctime"] < 60 * 10 and proc["restarts"] > 0:
+    if (time.time() - (proc["ctime"] / 1000) < 60 * 10) and proc["restarts"] > 0:
         notify(
             "Warning: {} was restarted in the last few minutes and has restarted {} times, could signify crashed process".format(
                 proc["uid"], proc["restarts"]
