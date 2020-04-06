@@ -1,8 +1,13 @@
 #!/usr/bin/python3
 """
 This is a pretty personal script, it uses my dev environment
-requires (python) httpx toml, (unix) notify-send and wait-for-internet
-https://github.com/seanbreckenridge/wait-for-internet
+requires:
+python packages:
+    httpx
+    toml
+commands:
+    notify-send
+    wait-for-internet (https://github.com/seanbreckenridge/wait-for-internet)
 
 Waits till I have an internet connection, and then
 checks whether the the server and the correct
@@ -59,7 +64,7 @@ except httpx._exceptions.HTTPError as http_error:
 
 try:
     resp_json = resp.json()
-except json.decoder.JSONDecodeError as parse_err:
+except json.decoder.JSONDecodeError:
     notify("Issue parsing response as JSON")
 
 # make sure the expected number of forever processes are running
