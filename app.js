@@ -21,7 +21,6 @@ function cleanForever(obj) {
   return obj;
 }
 
-
 // get information from environment variables
 const port = process.env.FOREVER_LIST_PORT || 8084;
 const password = process.env.FOREVER_LIST_TOKEN;
@@ -39,14 +38,23 @@ const app = express();
 // from https://github.com/expressjs/morgan/issues/115#issuecomment-239399047
 morgan.token('realclfdate', function(req, res) {
   const clfmonth = [
-    'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-    'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
+    'Jan',
+    'Feb',
+    'Mar',
+    'Apr',
+    'May',
+    'Jun',
+    'Jul',
+    'Aug',
+    'Sep',
+    'Oct',
+    'Nov',
+    'Dec',
   ];
   const pad2 = function(num) {
     const str = String(num);
 
-    return (str.length === 1 ? '0' : '') +
-    str;
+    return (str.length === 1 ? '0' : '') + str;
   };
   const dateTime = new Date();
   const date = dateTime.getDate();
@@ -56,18 +64,35 @@ morgan.token('realclfdate', function(req, res) {
   const year = dateTime.getFullYear();
   let timezoneofset = dateTime.getTimezoneOffset();
   const sign = timezoneofset > 0 ? '-' : '+';
-  timezoneofset = parseInt(Math.abs(timezoneofset)/60);
+  timezoneofset = parseInt(Math.abs(timezoneofset) / 60);
   const month = clfmonth[dateTime.getUTCMonth()];
 
-  return pad2(date) + '/' + month + '/' + year +
-    ':' + pad2(hour) + ':' + pad2(mins) + ':' + pad2(secs) +
-    ' '+sign+pad2(timezoneofset)+'00';
+  return (
+    pad2(date) +
+    '/' +
+    month +
+    '/' +
+    year +
+    ':' +
+    pad2(hour) +
+    ':' +
+    pad2(mins) +
+    ':' +
+    pad2(secs) +
+    ' ' +
+    sign +
+    pad2(timezoneofset) +
+    '00'
+  );
 });
 
-app.use(morgan(':remote-addr - :remote-user [:realclfdate] ":method :url HTTP/:http-version" :status :res[content-length] ":referrer" ":user-agent"'));
+app.use(
+    morgan(
+        ':remote-addr - :remote-user [:realclfdate] ":method :url HTTP/:http-version" :status :res[content-length] ":referrer" ":user-agent"',
+    ),
+);
 
 app.use(helmet());
-
 
 // authenticate with token
 app.use(function tokenAuth(req, res, next) {
@@ -78,7 +103,6 @@ app.use(function tokenAuth(req, res, next) {
   next();
 });
 
-
 app.get('/', function(req, res) {
   forever.list(false, function(err, processes) {
     // Could possibly throw errors at:
@@ -86,9 +110,7 @@ app.get('/', function(req, res) {
     if (err) {
       res.status(400).send(JSON.stringify(error));
     } else {
-      res.status(200).send(JSON.stringify(
-          processes.map(cleanForever),
-      ));
+      res.status(200).send(JSON.stringify(processes.map(cleanForever)));
     }
   });
 });
@@ -108,13 +130,15 @@ app.get('/:id/logs', function(req, res) {
           } else {
             const d = (data || '').toString().trim();
             if (!d || d === '\n') {
-              res.status(404).send(
-                  {error: {filename: process.logFile, logs: 'Empty Log'}},
-              );
+              res
+                  .status(404)
+                  .send({
+                    error: {filename: process.logFile, logs: 'Empty Log'},
+                  });
             } else {
-              res.status(200).send(
-                  {filename: process.logFile, logs: ansiparse(d)},
-              );
+              res
+                  .status(200)
+                  .send({filename: process.logFile, logs: ansiparse(d)});
             }
           }
         });
