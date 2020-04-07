@@ -88,7 +88,9 @@ morgan.token('realclfdate', function(req, res) {
 
 app.use(
     morgan(
-        ':remote-addr - :remote-user [:realclfdate] ":method :url HTTP/:http-version" :status :res[content-length] ":referrer" ":user-agent"',
+        ':remote-addr - :remote-user [:realclfdate] ' +
+        '":method :url HTTP/:http-version" :status ' +
+        ':res[content-length] ":referrer" ":user-agent"',
     ),
 );
 
