@@ -23,7 +23,7 @@ Endpoints:
 
 ## Example
 
-I run this on my server which runs my applications as `forever.js` processes (see [here](https://github.com/seanbreckenridge/vps/blob/master/restart)):
+I run this on my server which runs my applications as `forever.js` processes (see [here](https://github.com/seanbreckenridge/vps/blob/d53ac1e76303c5b0d34b88d04101c3feff06420e/restart)):
 
 ```shell
 FOREVER_LIST_TOKEN=secret_token_here node app.js
