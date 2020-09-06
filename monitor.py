@@ -77,7 +77,7 @@ if len(resp_json) != conf["FOREVER_LIST_COUNT"]:
 
 # make sure all returned processes are running
 for proc in resp_json:
-    # explicity not running
+    # explicitly not running
     if not proc["running"]:
         notify("{} is not running".format(proc["uid"]))
     # if it was started recently and has more than one restart, warn me
