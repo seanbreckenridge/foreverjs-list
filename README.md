@@ -7,7 +7,7 @@ Uses a secret token to authenticate requests, exposes the `forever.js` `list` co
 # Install
 
 ```shell
-git clone https://gitlab.com/seanbreckenridge/foreverjs-list
+git clone https://github.com/seanbreckenridge/foreverjs-list
 cd foreverjs-list
 npm install
 # set required token somewhere (put in some environment file (e.g. ~/.bashrc))
